@@ -1,5 +1,6 @@
-
 # Laravel Once - Task rollup for Laravel framework
+![PHP Composer](https://github.com/fshafiee/laravel-once/workflows/PHP%20Composer/badge.svg)
+
 This package allows defering tasks to the end of the request. It also rolls up identical tasks so that they are processed effectively once.
 
 ## What prompted the development of this package?
