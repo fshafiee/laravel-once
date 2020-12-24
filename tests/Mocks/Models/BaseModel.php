@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Once\Tests\Mocks\Models;
+namespace LaravelOnce\Tests\Mocks\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

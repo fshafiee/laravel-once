@@ -1,9 +1,9 @@
 <?php
 
-namespace Laravel\Once\Tests\Mocks\Tasks;
+namespace LaravelOnce\Tests\Mocks\Tasks;
 
-use Laravel\Once\Tests\Mocks\Models\BaseModel;
-use Laravel\Once\Tasks\RollableTask;
+use LaravelOnce\Tests\Mocks\Models\BaseModel;
+use LaravelOnce\Tasks\RollableTask;
 
 class RollableTaskMockForBaseModel extends RollableTask
 {

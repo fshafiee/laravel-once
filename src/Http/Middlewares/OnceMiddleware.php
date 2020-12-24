@@ -1,9 +1,9 @@
 <?php
 
-namespace Laravel\Once\Http\Middlewares;
+namespace LaravelOnce\Http\Middlewares;
 
 use Closure;
-use Laravel\Once\Services\OnceService;
+use LaravelOnce\Services\OnceService;
 
 class OnceMiddleware
 {

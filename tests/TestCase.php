@@ -1,8 +1,8 @@
 <?php
 
-namespace Laravel\Once\Tests;
+namespace LaravelOnce\Tests;
 
-use Laravel\Once\Providers\OnceServiceProvider;
+use LaravelOnce\Providers\OnceServiceProvider;
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 class TestCase extends OrchestraTestCase

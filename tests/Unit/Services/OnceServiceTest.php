@@ -1,14 +1,14 @@
 <?php
 
-namespace Laravel\Once\Tests\Unit\Services;
+namespace LaravelOnce\Tests\Unit\Services;
 
 use Exception;
-use Laravel\Once\Services\OnceService;
-use Laravel\Once\Tests\Mocks\Models\BaseModel;
-use Laravel\Once\Tests\Mocks\Tasks\RollableTaskMock;
-use Laravel\Once\Tests\Mocks\Tasks\RollableTaskMockForBaseModel;
-use Laravel\Once\Tests\Mocks\Tasks\FaultyRollableTaskMock;
-use Laravel\Once\Tests\TestCase;
+use LaravelOnce\Services\OnceService;
+use LaravelOnce\Tests\Mocks\Models\BaseModel;
+use LaravelOnce\Tests\Mocks\Tasks\RollableTaskMock;
+use LaravelOnce\Tests\Mocks\Tasks\RollableTaskMockForBaseModel;
+use LaravelOnce\Tests\Mocks\Tasks\FaultyRollableTaskMock;
+use LaravelOnce\Tests\TestCase;
 class OnceServiceTest extends TestCase
 {
     /** @var OnceService */

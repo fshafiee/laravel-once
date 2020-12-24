@@ -14,7 +14,7 @@ composer require fshafiee/laravel-once
 
 ### Defining Rollable Tasks
 
-All you gotta do is to create a new class that extends `Laravel\Once\Tasks\AutoDispatchedTask`, which is an abstract class.
+All you gotta do is to create a new class that extends `LaravelOnce\Tasks\AutoDispatchedTask`, which is an abstract class.
 You must define `__construct` and `perform` methods.
 Every time a new instance of this rollable class is created, it is automatically added to the backlog.
 
@@ -31,7 +31,7 @@ namespace App\Jobs\Rollables;
 
 use App\Jobs\UpdateAuthorCache;
 use App\Models\Author;
-use Laravel\Once\Tasks\AutoDispatchedTask;
+use LaravelOnce\Tasks\AutoDispatchedTask;
 
 class UpdateAuthorCacheRollableTask extends AutoDispatchedTask
 {

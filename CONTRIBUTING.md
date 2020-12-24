@@ -9,15 +9,15 @@ Now you can use the container to:
 1. Run the tests:
 
 ```bash
-> docker-compose exec laravel-once ./vendor/bin/phpunit tests
+> docker-compose exec laravel-once composer run-script test
 ```
 
 2. Validate the code-style
 
 ```bash
-> docker-compose exec laravel-once ./vendor/bin/phpcs --standard=PSR2 src
+> docker-compose exec laravel-once composer run-script cs
 
-# In order to fix the issue automatically: 
+# In order to fix the issue automatically:
 
-> docker-compose exec laravel-once ./vendor/bin/phpcbf --standard=PSR2 src
+> docker-compose exec laravel-once composer run-script cbf
 ```

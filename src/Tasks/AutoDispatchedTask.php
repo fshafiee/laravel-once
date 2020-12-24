@@ -1,8 +1,8 @@
 <?php
 
-namespace Laravel\Once\Tasks;
+namespace LaravelOnce\Tasks;
 
-use Laravel\Once\Services\OnceService;
+use LaravelOnce\Services\OnceService;
 
 abstract class AutoDispatchedTask extends RollableTask
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Laravel\Once\Tests\Feature;
+namespace LaravelOnce\Tests\Feature;
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Laravel\Once\Http\Middlewares\OnceMiddleware;
-use Laravel\Once\Services\OnceService;
-use Laravel\Once\Tests\TestCase;
+use LaravelOnce\Http\Middlewares\OnceMiddleware;
+use LaravelOnce\Services\OnceService;
+use LaravelOnce\Tests\TestCase;
 
 class OnceMiddlewareTest extends TestCase
 {

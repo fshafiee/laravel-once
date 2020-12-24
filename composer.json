@@ -1,7 +1,7 @@
 {
   "name": "fshafiee/laravel-once",
   "description": "Task rollup for Laravel",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "library",
   "license": "MIT",
   "homepage": "https://github.com/fshafiee/laravel-once",
@@ -33,18 +33,18 @@
   },
   "autoload": {
     "psr-4": {
-      "Laravel\\Once\\": "src/"
+      "LaravelOnce\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Laravel\\Once\\Tests\\": "tests/"
+      "LaravelOnce\\Tests\\": "tests/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Laravel\\Once\\Services\\OnceServiceProvider"
+        "LaravelOnce\\Services\\OnceServiceProvider"
       ]
     }
   }

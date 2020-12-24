@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Once\Tasks;
+namespace LaravelOnce\Tasks;
 
 use Illuminate\Contracts\Database\ModelIdentifier;
 use Illuminate\Contracts\Queue\QueueableEntity;

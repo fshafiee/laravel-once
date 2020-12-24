@@ -1,12 +1,12 @@
 <?php
-namespace Laravel\Once\Providers;
+namespace LaravelOnce\Providers;
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Once\Http\Middlewares\OnceMiddleware;
-use Laravel\Once\Services\OnceService;
+use LaravelOnce\Http\Middlewares\OnceMiddleware;
+use LaravelOnce\Services\OnceService;
 
 class OnceServiceProvider extends ServiceProvider
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Laravel\Once\Tests\Mocks\Tasks;
+namespace LaravelOnce\Tests\Mocks\Tasks;
 
 use Exception;
-use Laravel\Once\Tasks\RollableTask;
+use LaravelOnce\Tasks\RollableTask;
 
 class FaultyRollableTaskMock extends RollableTask
 {

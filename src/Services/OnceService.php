@@ -1,9 +1,9 @@
 <?php
 
-namespace Laravel\Once\Services;
+namespace LaravelOnce\Services;
 
 use Exception;
-use Laravel\Once\Tasks\RollableTask;
+use LaravelOnce\Tasks\RollableTask;
 
 class OnceService
 {
