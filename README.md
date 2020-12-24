@@ -3,7 +3,7 @@
 
 This package allows defering tasks to the end of the request. It also rolls up identical tasks so that they are processed effectively once.
 
-## Getting Started 
+## Getting Started
 ### Installing the package
 
 Add the package to your project via composer:
@@ -15,7 +15,7 @@ composer require fshafiee/laravel-once
 ### Defining Rollable Tasks
 
 All you gotta do is to create a new class that extends `Laravel\Once\Tasks\AutoDispatchedTask`, which is an abstract class.
-You must define `__construct` and `perform` methods. 
+You must define `__construct` and `perform` methods.
 Every time a new instance of this rollable class is created, it is automatically added to the backlog.
 
 The dependencies that are needed in order to fulfill `perform` operation, must be be passed to `__construct` and assigned to an instance variable.
@@ -54,7 +54,7 @@ class UpdateAuthorCacheRollableTask extends AutoDispatchedTask
 
         UpdateAuthorCache::revalidate($this->authorId);
         /**
-         * You could also dispatch the job to a queue in 
+         * You could also dispatch the job to a queue in
          * order to process it asynchronously. It'll be
          * dispatched only once at the end of the request.
          */
@@ -109,8 +109,7 @@ As you can see, the rollable tasks can treated as drop-in replacements, if done 
 
 ### Caveats
 Behind the scenes, every time an instance of `AutoDispatchedTask` is created, it resolves the `OnceSerivce` from the container,
-and its own reference to the backlog using `OnceSerivce->add` method. These tasks are then processed in FIFO manner in a terminable middleware
-by resolving the service an invoking the `commit` method.
+adds its own reference to the backlog using `OnceSerivce->add` method. These tasks are then processed in FIFO manner in a terminable middleware by resolving the service and invoking the `commit` method.
 As result, in command line environments (where HTTP request lifecycle is not available), `OnceSerivce->commit` should be called manually.
 
 ```php
@@ -126,8 +125,8 @@ Queue::after(function (JobProcessed $event) {
 });
 ```
 
-If you decide not to use the package service provider, or these rollable tasks are generated outside the context of jobs or HTTP requests 
-(e.g. cron jobs, ad-hoc scripts, etc.), you need to `commit` the tasks manually.
+If you decide not to use the package service provider, or these rollable tasks are generated outside the context of jobs or HTTP requests
+(e.g. cron jobs, adhoc scripts, etc.), you need to `commit` the tasks manually.
 
 ---
 
