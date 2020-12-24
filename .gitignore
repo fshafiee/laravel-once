@@ -1,0 +1,6 @@
+/vendor
+/.idea
+/.vscode
+.DS_Store
+/_ide_helper.php
+*.code-workspace

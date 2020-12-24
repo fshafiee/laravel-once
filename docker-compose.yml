@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  laravel-once:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '9000:8000'
+    volumes:
+      - .:/home/devuser/package:delegated
+      - ~/.ssh:/home/devuser/.ssh:cached
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
