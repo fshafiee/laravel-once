@@ -23,7 +23,15 @@ And since these are sideffects, we know that the response of the request should 
 
 ---
 
-## How To
+## Installing the package
+
+Add the package to your project via composer:
+
+```bash
+composer require fshafiee/laravel-once
+```
+
+## Defining Rollable Tasks
 
 First, you need to define a rollable task by extending `Laravel\Once\Tasks\AutoDispatchedTask`.
 You must define `__construct` and `perform` methods.
@@ -38,8 +46,8 @@ The tasks backlog are processed when `OnceSerivce->commit` method is called, whi
 
 Take this example. We want to handle cache revalidation of an **Author** object. The cached data also includes the **Book**s, embedded with each **Author**. Every change on the author and its book, triggers a cache revalidation. There's also an API that allows publishers to add or update authors and their books in bulk. Here's how we could re-arrange the code:
 
-
 1. Create a rollable task to update author cache.
+
 ```php
 namespace App\Jobs\Rollables;
 
@@ -75,7 +83,7 @@ class UpdateAuthorCacheRollableTask extends AutoDispatchedTask
 }
 ```
 
-1. Instatiate a rollable task wherever the logic encapsulated by `perform` method was called previously.
+2. Instatiate a rollable task wherever the logic encapsulated by `perform` method was called previously.
 
 Considering there's a subscriber for a this single side-effect:
 
