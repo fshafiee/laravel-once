@@ -1,14 +1,25 @@
 {
   "name": "fshafiee/laravel-once",
   "description": "Task rollup for Laravel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/fshafiee/laravel-once",
+  "keywords": [
+    "events",
+    "laravel",
+    "once",
+    "rollup"
+  ],
   "authors": [
     {
       "name": "Farzad Shafiee",
       "email": "frzd.shafiee@gmail.com"
     }
   ],
+  "support": {
+    "email": "frzd.shafiee@gmail.com"
+  },
   "scripts": {
     "cs": "vendor/bin/phpcs --standard=PSR2 src",
     "test": "vendor/bin/phpunit tests"
