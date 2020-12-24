@@ -9,6 +9,10 @@
       "email": "frzd.shafiee@gmail.com"
     }
   ],
+  "scripts": {
+    "cs": "vendor/bin/phpcs --standard=PSR2 src",
+    "test": "vendor/bin/phpunit tests"
+  },
   "minimum-stability": "stable",
   "require-dev": {
     "orchestra/testbench": "^3.6.0",
