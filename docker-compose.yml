@@ -12,6 +12,7 @@ services:
     volumes:
       - .:/home/devuser/package:delegated
       - ~/.ssh:/home/devuser/.ssh:cached
+      - ~/.gitconfig:/home/devuser/.gitconfig:cached
     networks:
       - app-network
 networks:
