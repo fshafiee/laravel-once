@@ -4,3 +4,4 @@
 .DS_Store
 /_ide_helper.php
 *.code-workspace
+.phpunit.result.cache

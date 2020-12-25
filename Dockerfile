@@ -1,4 +1,4 @@
-ARG PHP_VERSION=7.1
+ARG PHP_VERSION=7.3
 FROM php:${PHP_VERSION}-cli
 
 RUN apt-get update
@@ -11,21 +11,19 @@ RUN apt-get install -y \
     libgmp-dev \
     libmcrypt-dev \
     zlib1g-dev \
+    libzip-dev \
     vim \
+    unzip \
     bind9utils \
-    && rm -r /var/lib/apt/lists/*
-# 2. php extensions
-RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
-RUN docker-php-ext-install \
-    intl \
-    mbstring \
-    mcrypt \
-    pcntl \
-    pdo_mysql \
-    zip \
-    opcache \
-    gmp \
-    bcmath
+    && rm -r /var/lib/apt/lists/* \
+    && docker-php-ext-install \
+        intl \
+        mbstring \
+        pcntl \
+        zip \
+        opcache \
+        gmp \
+        bcmath
 
 # 3. composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer

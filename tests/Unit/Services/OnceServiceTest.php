@@ -9,6 +9,7 @@ use LaravelOnce\Tests\Mocks\Tasks\RollableTaskMock;
 use LaravelOnce\Tests\Mocks\Tasks\RollableTaskMockForBaseModel;
 use LaravelOnce\Tests\Mocks\Tasks\FaultyRollableTaskMock;
 use LaravelOnce\Tests\TestCase;
+
 class OnceServiceTest extends TestCase
 {
     /** @var OnceService */

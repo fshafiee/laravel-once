@@ -10,7 +10,8 @@ class RollableTaskMockForBaseModel extends RollableTask
     /** @var BaseModel */
     private $resource;
 
-    public function __construct(BaseModel $resource) {
+    public function __construct(BaseModel $resource)
+    {
         $this->resource = $resource;
     }
 

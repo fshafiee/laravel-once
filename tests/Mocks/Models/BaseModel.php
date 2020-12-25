@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
-    static $unguarded = true;
-
     protected $fillable = [
         '_id',
     ];
@@ -20,7 +18,5 @@ class BaseModel extends Model
     public function hello()
     {
         return $this->_id;
-
     }
-
 }

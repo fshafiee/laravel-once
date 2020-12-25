@@ -9,7 +9,8 @@ class FaultyRollableTaskMock extends RollableTask
 {
     public $resource;
 
-    public function __construct($resource) {
+    public function __construct($resource)
+    {
         $this->resource = $resource;
     }
 

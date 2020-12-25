@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# get bash colors and styles here:
+# http://misc.flogisoft.com/bash/tip_colors_and_formatting
+C_RESET='\e[0m'
+C_RED='\e[31m'
+C_GREEN='\e[32m'
+C_YELLOW='\e[33m'
+
+function __run() #(step, name, cmd)
+{
+    local color output exitcode
+
+    printf "${C_YELLOW}[%s]${C_RESET} %-20s" "$1" "$2"
+    output=$(eval "$3" 2>&1)
+    exitcode=$?
+
+    if [[ 0 == $exitcode || 130 == $exitcode ]]; then
+        echo -e "${C_GREEN}OK!${C_RESET}"
+    else
+        echo -e "${C_RED}NOT OK!${C_RESET}\n\n$output"
+        exit 1
+    fi
+}
+
+modified="git diff --diff-filter=M --name-only --cached  | grep \".php$\""
+cbf="composer run-script cbf"
+cs="composer run-script cs"
+stan="composer run-script stan"
+test="composer run-script test"
+
+__run "1/4" "Linting the code..." "${cbf}"
+__run "2/4" "Validating the style..." "${cs}"
+__run "3/4" "Finding bugs..." "${stan}"
+__run "4/4" "Running tests..." "${test}"

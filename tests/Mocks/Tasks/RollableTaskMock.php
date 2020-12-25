@@ -8,7 +8,8 @@ class RollableTaskMock extends RollableTask
 {
     private $resource;
 
-    public function __construct($resource) {
+    public function __construct($resource)
+    {
         $this->resource = $resource;
     }
 
