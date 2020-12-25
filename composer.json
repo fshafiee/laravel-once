@@ -22,6 +22,7 @@
   },
   "scripts": {
     "cs": "vendor/bin/phpcs --standard=PSR2 src",
+    "cbf": "vendor/bin/phpcbf --standard=PSR2 src",
     "test": "vendor/bin/phpunit tests"
   },
   "minimum-stability": "stable",
