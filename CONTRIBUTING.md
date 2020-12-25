@@ -26,8 +26,13 @@ Now you can use the container to:
 ### Git Hooks
 The hooks ensure that you commit meets the minimum required quality, before pushing the changes to the remote repository.
 In order to use the hooks, either copy the `pre-commit` file to your `.git/hooks/` directory, or reconfigure the repository:
+
 ```bash
 > git config --local core.hooksPath .githooks/
 ```
 
-If you are using the provided docker container, you need to execute the git commands inside the container
+If your local environment is not setup properly for PHP, you can use the docker container to issue git commands:
+
+```bash
+> docker-compose exec laravel-once git commit
+```

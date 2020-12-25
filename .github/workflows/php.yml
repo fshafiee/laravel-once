@@ -1,4 +1,4 @@
-name: PHP Composer
+name: Package Build
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.4"
+          php-version: "7.3"
           coverage: pcov
 
       - name: Validate composer.json and composer.lock
@@ -38,5 +38,8 @@ jobs:
       - name: Validate code style
         run: composer run-script cs
 
-      - name: Run test suite
+      - name: Find possible bugs
+        run: composer run-script stan
+
+      - name: Run tests
         run: composer run-script test
