@@ -1,7 +1,7 @@
 {
   "name": "fshafiee/laravel-once",
   "description": "Task rollup for Laravel",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "library",
   "license": "MIT",
   "homepage": "https://github.com/fshafiee/laravel-once",
