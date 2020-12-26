@@ -1,0 +1,18 @@
+* text=auto
+*.sh linguist-language=PHP
+
+# Ignore following folder/file.
+/.gitattributes export-ignore
+/.githooks export-ignore
+/.github export-ignore
+/.gitignore export-ignore
+/.gitmodules export-ignore
+/.phpcs.xml export-ignore
+/tests export-ignore
+/phpunit.xml export-ignore
+/phpstan.neo export-ignore
+/CONTRIBUTING.md export-ignore
+/LICENSE export-ignore
+/README.md export-ignore
+/Dockerfile export-ignore
+/docker-compose.yml export-ignore
