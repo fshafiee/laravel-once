@@ -33,7 +33,7 @@ use App\Jobs\UpdateAuthorCache;
 use App\Models\Author;
 use LaravelOnce\Tasks\AutoDispatchedTask;
 
-class UpdateAuthorCacheRollableTask extends AutoDispatchedTask
+class UpdateAuthorCacheOnce extends AutoDispatchedTask
 {
     public $authorId;
 
@@ -75,7 +75,7 @@ use App\Events\BookCreated;
 use App\Events\BookUpdated;
 // ...
 
-use App\Jobs\Rollables\UpdateAuthorCacheRollableTask;
+use App\Jobs\Rollables\UpdateAuthorCacheOnce;
 
 class SomeListener
 {
@@ -100,7 +100,7 @@ class SomeListener
          *   UpdateAuthorCache::revalidate($event->getAuthorId());
          * We have:
          */
-        new UpdateAuthorCacheRollableTask($event->getAuthorId());
+        new UpdateAuthorCacheOnce($event->getAuthorId());
     }
 }
 ```
