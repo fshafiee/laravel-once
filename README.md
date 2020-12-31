@@ -1,7 +1,16 @@
 # Laravel Once - Task rollup for Laravel framework
+
 ![Build Status](https://github.com/fshafiee/laravel-once/workflows/Package%20Build/badge.svg)
 
-This package allows defering tasks to the end of the request. It also rolls up identical tasks so that they are processed effectively once.
+<p align="center">
+  <img
+    alt="Laravel Once Banner"
+    height="148"
+    src="https://repository-images.githubusercontent.com/324225031/fae0c400-4659-11eb-9d9d-02044b1efd9a"
+  />
+</p>
+
+This package allows defering tasks to the end of the request. It also rolls up identical tasks so that they are processed only once.
 
 ## Getting Started
 ### Installing the package
