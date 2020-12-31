@@ -67,7 +67,7 @@ class UpdateAuthorCacheOnce extends AutoDispatchedTask
 Considering that there is a subscriber for a this single side-effect:
 
 ```php
-namespace App\Subscribers\AuthorCacheSubscriber;
+namespace App\Subscribers;
 
 use App\Events\AuthorCreated;
 use App\Events\AuthorUpdated;
@@ -77,7 +77,7 @@ use App\Events\BookUpdated;
 
 use App\Jobs\Rollables\UpdateAuthorCacheOnce;
 
-class SomeListener
+class AuthorCacheSubscriber
 {
      /**
      * Register the listeners for the subscriber.
