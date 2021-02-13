@@ -10,7 +10,8 @@
   />
 </p>
 
-This package allows defering tasks to the end of the request. It also rolls up identical tasks so that they are processed only once.
+This package allows deferring tasks to the end of the request. It also rolls up identical tasks so that they are processed only once per request
+or desired time window.
 
 ## Getting Started
 ### Installing the package
@@ -115,6 +116,54 @@ class AuthorCacheSubscriber
 ```
 
 As you can see, the rollable tasks can treated as drop-in replacements, if done right.
+
+### Debouncing Task
+in addition to rollup similar task on a request, you can do it between different requests on desired time window
+imagine a heavy task like updating product catalog when a product has been changed. instead of doing updates after each modification you 
+can dispatch a `DebouncingTask` as soon as first update occured with a 15 min wait time. if during this time user make another update the timer will reset
+and so on. when the wait elapsed the task will be performed.
+
+```php
+namespace App\Jobs\Rollables;
+
+use App\Jobs\UpdateProductsCatalogue;
+use LaravelOnce\Tasks\DebouncingTask;
+
+class UpdateUsersProductsCatalogue extends DebouncingTask
+{
+    public $userId;
+
+    public function __construct(string $userId)
+    {
+        /**
+         * Make sure parent::_construct() method is called.
+         * or else the task won't be automatically added
+         * to the task backlog, and you'd need to add it manually
+         * by resolve the service.
+         */
+        parent::__construct();
+        $this->userId = $userId;
+    }
+
+    public function perform()
+    {
+
+        UpdateProductsCatalogue::forUser($this->userId);
+        /**
+         * You could also dispatch the job to a queue in
+         * order to process it asynchronously. It'll be
+         * dispatched only once at the end of the debounce
+         * wait time 
+         */
+    }
+    
+    public function wait() : int
+    {
+        return 900;
+    }
+}
+```
+***note***: in order to use use `DebouncingTask` you need an active queue connection with supporting delay. the `sync` driver doest work
 
 ### Caveats
 Behind the scenes, every time an instance of `AutoDispatchedTask` is created, it resolves the `OnceSerivce` from the container,

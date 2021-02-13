@@ -2,13 +2,18 @@
 
 namespace LaravelOnce\Tests\Unit\Services;
 
+use Mockery;
 use Exception;
+use LaravelOnce\Tests\TestCase;
+use Illuminate\Support\Facades\Bus;
+use LaravelOnce\Support\LockHelper;
 use LaravelOnce\Services\OnceService;
+use LaravelOnce\Job\ProcessDebouncedTask;
 use LaravelOnce\Tests\Mocks\Models\BaseModel;
 use LaravelOnce\Tests\Mocks\Tasks\RollableTaskMock;
-use LaravelOnce\Tests\Mocks\Tasks\RollableTaskMockForBaseModel;
+use LaravelOnce\Tests\Mocks\Tasks\DebouncingTaskMock;
 use LaravelOnce\Tests\Mocks\Tasks\FaultyRollableTaskMock;
-use LaravelOnce\Tests\TestCase;
+use LaravelOnce\Tests\Mocks\Tasks\RollableTaskMockForBaseModel;
 
 class OnceServiceTest extends TestCase
 {
@@ -21,7 +26,7 @@ class OnceServiceTest extends TestCase
         $this->service = new OnceService();
     }
 
-    public function tests_commit_should_process_all_added_tasks()
+    public function test_commit_should_process_all_added_tasks()
     {
         // Arrange
         $task = new RollableTaskMock('1');
@@ -35,6 +40,78 @@ class OnceServiceTest extends TestCase
         // Assert
         $this->assertEquals(['1', '2'], $result);
     }
+
+    public function test_commit_should_queue_debouncing_tasks()
+    {
+        // Arrange
+        $task = new DebouncingTaskMock('1');
+        $task2 = new DebouncingTaskMock('2');
+        Bus::fake([ProcessDebouncedTask::class]);
+
+        // Act
+        $this->service->add($task);
+        $this->service->add($task2);
+        $this->service->commit();
+
+        // Assert
+        Bus::assertDispatchedTimes(ProcessDebouncedTask::class, 2);
+    }
+
+    public function test_commit_should_dispatch_and_delay_the_job_based_on_wait_time_when_able_to_acquire_lock()
+    {
+        // Arrange
+        Bus::fake();
+        $mock = Mockery::mock(LockHelper::class)->makePartial();
+        $mock->shouldReceive('acquireLock')->andReturn(true);
+        $mock->shouldReceive('getLockKey')->andReturn($lockKey = 'lock-key');
+        $this->app->instance(LockHelper::class, $mock);
+
+
+        $service = new OnceService();
+
+        $task = new DebouncingTaskMock('1');
+
+
+        // Act
+        $service->add($task);
+        $service->commit();
+
+        // Assert
+
+        Bus::assertDispatched(ProcessDebouncedTask::class,
+            function ($job) use ($task, $lockKey) {
+                return
+                    $job->task === $task
+                    && $job->delay === $task->wait()
+                    && $job->cacheKey === $lockKey ;
+            }
+        );
+    }
+    public function test_commit_should_not_dispatch_the_job_when_is_not_able_to_acquire_lock()
+    {
+        $this->withExceptionHandling();
+        // Arrange
+        Bus::fake();
+        $mock = Mockery::mock(LockHelper::class)->makePartial();
+        $mock->shouldReceive('getLockKey')->andReturn($lockKey = 'lock-key');
+        $mock->shouldReceive('acquireLock')->andReturn(false);
+        $this->app->instance(LockHelper::class, $mock);
+
+
+        $service = new OnceService();
+
+        $task = new DebouncingTaskMock('1');
+
+
+        // Act
+        $service->add($task);
+        $service->commit();
+
+        // Assert
+
+        Bus::assertNotDispatched(ProcessDebouncedTask::class);
+    }
+
 
     public function test_commit_should_process_duplicate_tasks_only_once()
     {
