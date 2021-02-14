@@ -29,7 +29,8 @@ class ProcessDebouncedTaskTest extends TestCase
 
         // Assert
         $task->shouldNotHaveReceived('perform');
-        Bus::assertDispatched(ProcessDebouncedTask::class,
+        Bus::assertDispatched(
+            ProcessDebouncedTask::class,
             function ($job) use ($task, $lockKey, $remainingWait) {
                 return
                     $job->task === $task
@@ -75,6 +76,4 @@ class ProcessDebouncedTaskTest extends TestCase
         $task->shouldHaveReceived('perform');
         Bus::assertNotDispatched(ProcessDebouncedTask::class);
     }
-
-
 }

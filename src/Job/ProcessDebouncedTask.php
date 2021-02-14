@@ -3,7 +3,6 @@
 
 namespace LaravelOnce\Job;
 
-
 use Illuminate\Bus\Queueable;
 use LaravelOnce\Support\DebounceWait;
 use LaravelOnce\Tasks\DebouncingTask;

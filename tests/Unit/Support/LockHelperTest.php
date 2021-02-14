@@ -13,7 +13,6 @@ class LockHelperTest extends TestCase
 {
     
     public function test_get_lock_key()
-
     {
         // Arrange
         $data = 'test';
@@ -39,11 +38,10 @@ class LockHelperTest extends TestCase
         Cache::shouldReceive('missing')->with($lockKey)->andReturn($isMissing);
         Cache::shouldReceive('put')->once();
         // Act
-        $result = (new LockHelper())->acquireLock($lockKey,$task);
+        $result = (new LockHelper())->acquireLock($lockKey, $task);
 
         // Assert
         $this->assertEquals($result, $isMissing);
-
     }
 
     public function test_acquireLock_should_update_lock_ttl_on_every_call()
@@ -57,8 +55,7 @@ class LockHelperTest extends TestCase
         Cache::shouldReceive('missing')->with($lockKey)->andReturn(false);
         Cache::shouldReceive('put')->with($lockKey, $cacheValue, $task->wait())->once();
         // Act
-        (new LockHelper())->acquireLock($lockKey,$task);
-
+        (new LockHelper())->acquireLock($lockKey, $task);
     }
 
     public function lockProvider()
@@ -68,5 +65,4 @@ class LockHelperTest extends TestCase
             'exists' => [false],
         ];
     }
-
 }

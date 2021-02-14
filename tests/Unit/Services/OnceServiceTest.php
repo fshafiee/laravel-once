@@ -78,7 +78,8 @@ class OnceServiceTest extends TestCase
 
         // Assert
 
-        Bus::assertDispatched(ProcessDebouncedTask::class,
+        Bus::assertDispatched(
+            ProcessDebouncedTask::class,
             function ($job) use ($task, $lockKey) {
                 return
                     $job->task === $task

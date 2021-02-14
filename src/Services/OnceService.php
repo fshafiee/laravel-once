@@ -42,12 +42,10 @@ class OnceService
                     if ($shouldDispatch) {
                         ProcessDebouncedTask::dispatch($taskInstance, $task['lockKey'])->delay($taskInstance->wait());
                         $results[] = 'dispatched';
-
                     }
-                } else  {
+                } else {
                     $results[] = $taskInstance->perform();
                 }
-
             } catch (Exception $e) {
                 $results[] = $e;
                 /**

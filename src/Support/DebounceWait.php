@@ -46,5 +46,4 @@ class DebounceWait
             'w' => $this->waitTime,
         ]);
     }
-
 }

@@ -18,6 +18,5 @@ abstract class DebouncingTask extends RollableTask
      * Wait time in seconds
      * @return int
      */
-    public abstract function wait(): int;
-
+    abstract public function wait(): int;
 }
