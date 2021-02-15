@@ -28,15 +28,15 @@ All you gotta do is to create a new class that extends `LaravelOnce\Tasks\AutoDi
 You must define `__construct` and `perform` methods.
 Every time a new instance of this rollable class is created, it is automatically added to the backlog.
 
-The dependencies that are needed in order to fulfill `perform` operation, must be be passed to `__construct` and assigned to an instance variable.
+The dependencies that are needed to fulfill the `perform` operation, must be passed to `__construct` and assigned to an instance variable.
 
 #### An example...
 
-We want to handle cache revalidation of **Author** objects. Each cached object also has the **Book**s, embedded in the object. As result, every change on authors and their books, should trigger the cache revalidation. There's also an API that allows publishers to add or update authors and their books in bulk. As result, it is very likely to trigger cache revalidation in a very short burst. Here's how we could arrange the code:
+We want to handle cache revalidation of **Author** objects. Each cached object also has the **Book**s, embedded in the object. As result, every change on authors and their books should trigger the cache revalidation. There's also an API that allows publishers to add or update authors and their books in bulk. As result, it is very likely to trigger cache revalidation in a very short burst. Here's how we could arrange the code:
 
 1. Create a rollable task to update author cache.
 
-```php
+```PHP
 namespace App\Jobs\Rollables;
 
 use App\Jobs\UpdateAuthorCache;
@@ -72,9 +72,9 @@ class UpdateAuthorCacheOnce extends AutoDispatchedTask
 }
 ```
 
-2. Instatiate a rollable task wherever the logic encapsulated by `perform` method was previously called.
+2. Instatiate a rollable task wherever the logic encapsulated by the `perform` method was previously called.
 
-Considering that there is a subscriber for a this single side-effect:
+Considering that there is a subscriber for this single side-effect:
 
 ```php
 namespace App\Subscribers;
@@ -115,13 +115,11 @@ class AuthorCacheSubscriber
 }
 ```
 
-As you can see, the rollable tasks can treated as drop-in replacements, if done right.
+As you can see, the rollable tasks can be treated as drop-in replacements, if done right.
 
 ### Debouncing Task
-in addition to rollup similar task on a request, you can do it between different requests on desired time window
-imagine a heavy task like updating product catalog when a product has been changed. instead of doing updates after each modification you 
-can dispatch a `DebouncingTask` as soon as first update occured with a 15 min wait time. if during this time user make another update the timer will reset
-and so on. when the wait elapsed the task will be performed.
+In addition to rollup similar tasks on a request, you can do it event between different requests on desired time window
+Imagine a heavy task like updating a product catalog when the product details have been changed. instead of doing updates after each modification, you can dispatch a `DebouncingTask` as soon as the first update occurred, with the desired wait time. if during this time window, the user makes another update, the timer will reset, and so on. when the wait elapses the task will be performed.
 
 ```php
 namespace App\Jobs\Rollables;
@@ -163,7 +161,7 @@ class UpdateUsersProductsCatalogue extends DebouncingTask
     }
 }
 ```
-***note***: in order to use use `DebouncingTask` you need an active queue connection with supporting delay. the `sync` driver doest work
+***note***: In order to use  `DebouncingTask` you need an active queue connection that supports `delay`.  so the `sync` driver doesnt work
 
 ### Caveats
 Behind the scenes, every time an instance of `AutoDispatchedTask` is created, it resolves the `OnceSerivce` from the container,
