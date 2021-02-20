@@ -1,7 +1,7 @@
 {
   "name": "fshafiee/laravel-once",
   "description": "Task rollup for Laravel",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "type": "library",
   "license": "MIT",
   "homepage": "https://github.com/fshafiee/laravel-once",
@@ -27,7 +27,7 @@
   "scripts": {
     "cs": "vendor/bin/phpcs --extensions=php --report=full -nps",
     "cbf": "vendor/bin/phpcbf",
-    "stan": "vendor/bin/phpstan analyse --level 4 src",
+    "stan": "php -d memory_limit=256M vendor/bin/phpstan analyse --level 4 src",
     "test": "vendor/bin/phpunit tests"
   },
   "minimum-stability": "stable",
