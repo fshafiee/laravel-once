@@ -10,7 +10,8 @@
   />
 </p>
 
-This package allows defering tasks to the end of the request. It also rolls up identical tasks so that they are processed only once.
+This package allows deferring tasks to the end of the request. It also rolls up identical tasks so that they are processed only once per request
+or desired time window.
 
 ## Getting Started
 ### Installing the package
@@ -27,15 +28,15 @@ All you gotta do is to create a new class that extends `LaravelOnce\Tasks\AutoDi
 You must define `__construct` and `perform` methods.
 Every time a new instance of this rollable class is created, it is automatically added to the backlog.
 
-The dependencies that are needed in order to fulfill `perform` operation, must be be passed to `__construct` and assigned to an instance variable.
+The dependencies that are needed to fulfill the `perform` operation, must be passed to `__construct` and assigned to an instance variable.
 
 #### An example...
 
-We want to handle cache revalidation of **Author** objects. Each cached object also has the **Book**s, embedded in the object. As result, every change on authors and their books, should trigger the cache revalidation. There's also an API that allows publishers to add or update authors and their books in bulk. As result, it is very likely to trigger cache revalidation in a very short burst. Here's how we could arrange the code:
+We want to handle cache revalidation of **Author** objects. Each cached object also has the **Book**s, embedded in the object. As result, every change on authors and their books should trigger the cache revalidation. There's also an API that allows publishers to add or update authors and their books in bulk. As result, it is very likely to trigger cache revalidation in a very short burst. Here's how we could arrange the code:
 
 1. Create a rollable task to update author cache.
 
-```php
+```PHP
 namespace App\Jobs\Rollables;
 
 use App\Jobs\UpdateAuthorCache;
@@ -71,9 +72,9 @@ class UpdateAuthorCacheOnce extends AutoDispatchedTask
 }
 ```
 
-2. Instatiate a rollable task wherever the logic encapsulated by `perform` method was previously called.
+2. Instatiate a rollable task wherever the logic encapsulated by the `perform` method was previously called.
 
-Considering that there is a subscriber for a this single side-effect:
+Considering that there is a subscriber for this single side-effect:
 
 ```php
 namespace App\Subscribers;
@@ -114,7 +115,53 @@ class AuthorCacheSubscriber
 }
 ```
 
-As you can see, the rollable tasks can treated as drop-in replacements, if done right.
+As you can see, the rollable tasks can be treated as drop-in replacements, if done right.
+
+### Debouncing Task
+In addition to rolling up similar tasks in context of a single request, you can do it even between different requests in a desired time window.
+Imagine a heavy task like updating a product catalog when the product details have changed. Instead of doing updates after each modification, you can dispatch a `DebouncingTask` as soon as the first update occurrs, with the desired wait time. If during this time window, users make other updates, the timer will reset. When the wait time elapses, the task will be performed.
+
+```php
+namespace App\Jobs\Rollables;
+
+use App\Jobs\UpdateProductsCatalogue;
+use LaravelOnce\Tasks\DebouncingTask;
+
+class UpdateUsersProductsCatalogue extends DebouncingTask
+{
+    public $userId;
+
+    public function __construct(string $userId)
+    {
+        /**
+         * Make sure parent::_construct() method is called.
+         * or else the task won't be automatically added
+         * to the task backlog, and you'd need to add it manually
+         * by resolve the service.
+         */
+        parent::__construct();
+        $this->userId = $userId;
+    }
+
+    public function perform()
+    {
+
+        UpdateProductsCatalogue::forUser($this->userId);
+        /**
+         * You could also dispatch the job to a queue in
+         * order to process it asynchronously. It'll be
+         * dispatched only once at the end of the debounce
+         * wait time 
+         */
+    }
+    
+    public function wait() : int
+    {
+        return 900;
+    }
+}
+```
+***note***: In order to use  `DebouncingTask` you need an active queue connection that supports `delay`.  Therefore, the `sync` queue driver is incompatible with this feature.
 
 ### Caveats
 Behind the scenes, every time an instance of `AutoDispatchedTask` is created, it resolves the `OnceSerivce` from the container,
@@ -125,7 +172,7 @@ As result, in command line environments (where HTTP request lifecycle is not ava
 resolve(OnceSerivce::class)->commit();
 ```
 
-Keep in mind that this is already handled for queued jobs.
+Keep in mind that calling `commit` is already handled for queued jobs.
 If you examine `OnceServiceProvider`, you'd find following lines:
 
 ```php
@@ -169,4 +216,4 @@ While [Laravel 8.x supports unique jobs](https://laravel.com/docs/8.x/queues#uni
 
 There's also the matter queue driver support.
 
-It seems to me that these two approaches are complementary to each other, addressing similar but different aspects of "effectively-once processing".
+It seems like these two approaches are complementary to each other, addressing similar but different aspects of "effectively-once processing".

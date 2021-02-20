@@ -8,11 +8,12 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - '9000:8000'
+      - '8000:8000'
     volumes:
       - .:/home/devuser/package:delegated
       - ~/.ssh:/home/devuser/.ssh:cached
-      - ~/.gitconfig:/home/devuser/.gitconfig:cached
+      - ~/.gitconfig:/home/devuser/.gitconfig
+
     networks:
       - app-network
 networks:
