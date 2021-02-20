@@ -118,8 +118,8 @@ class AuthorCacheSubscriber
 As you can see, the rollable tasks can be treated as drop-in replacements, if done right.
 
 ### Debouncing Task
-In addition to rollup similar tasks on a request, you can do it event between different requests on desired time window
-Imagine a heavy task like updating a product catalog when the product details have been changed. instead of doing updates after each modification, you can dispatch a `DebouncingTask` as soon as the first update occurred, with the desired wait time. if during this time window, the user makes another update, the timer will reset, and so on. when the wait elapses the task will be performed.
+In addition to rolling up similar tasks in context of a single request, you can do it even between different requests in a desired time window.
+Imagine a heavy task like updating a product catalog when the product details have changed. Instead of doing updates after each modification, you can dispatch a `DebouncingTask` as soon as the first update occurrs, with the desired wait time. If during this time window, users make other updates, the timer will reset. When the wait time elapses, the task will be performed.
 
 ```php
 namespace App\Jobs\Rollables;
@@ -161,7 +161,7 @@ class UpdateUsersProductsCatalogue extends DebouncingTask
     }
 }
 ```
-***note***: In order to use  `DebouncingTask` you need an active queue connection that supports `delay`.  so the `sync` driver doesnt work
+***note***: In order to use  `DebouncingTask` you need an active queue connection that supports `delay`.  Therefore, the `sync` queue driver is incompatible with this feature.
 
 ### Caveats
 Behind the scenes, every time an instance of `AutoDispatchedTask` is created, it resolves the `OnceSerivce` from the container,
@@ -172,7 +172,7 @@ As result, in command line environments (where HTTP request lifecycle is not ava
 resolve(OnceSerivce::class)->commit();
 ```
 
-Keep in mind that this is already handled for queued jobs.
+Keep in mind that calling `commit` is already handled for queued jobs.
 If you examine `OnceServiceProvider`, you'd find following lines:
 
 ```php
@@ -216,4 +216,4 @@ While [Laravel 8.x supports unique jobs](https://laravel.com/docs/8.x/queues#uni
 
 There's also the matter queue driver support.
 
-It seems to me that these two approaches are complementary to each other, addressing similar but different aspects of "effectively-once processing".
+It seems like these two approaches are complementary to each other, addressing similar but different aspects of "effectively-once processing".
